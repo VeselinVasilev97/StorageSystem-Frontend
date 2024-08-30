@@ -1,9 +1,8 @@
 import React from 'react'
 import classes from './Nav.module.scss'
 import { useNavigate } from 'react-router-dom'
-type Props = {}
-
-const Nav = (props: Props) => {
+import logoutSvg from '../../assets/logoutIcon.svg'
+const Nav = () => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -14,7 +13,10 @@ const Nav = (props: Props) => {
   return (
     <div className={classes.navWrapper}>
       <div className={classes.nav}>
-        <button type="button" onClick={handleLogout}>logout</button>
+        <p>USERNAME</p>
+        <button type="button" onClick={handleLogout}>
+          <img height={"50%"} src={logoutSvg} />
+        </button>
       </div>
     </div>
   )

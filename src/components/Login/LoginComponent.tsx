@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import classes from "./LoginComponent.module.scss";
 import { redirect, useNavigate } from "react-router-dom";
 
-
 type FormType = {
   username: string;
   password: string;
@@ -27,7 +26,7 @@ const LoginComponent = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setLoading(true);
     setError(null);
 
@@ -45,7 +44,7 @@ const LoginComponent = () => {
       }
       const result = await response.json();
       localStorage.setItem("authToken", result.token);
-      navigate  ('/dashboard')
+      navigate("/dashboard");
     } catch (error: any) {
       setError(error.message || "An error occurred during login.");
     } finally {
@@ -58,26 +57,26 @@ const LoginComponent = () => {
       <form className={classes.formStyle} onSubmit={handleSubmit}>
         <h4>Login</h4>
         <div className={classes.errorTextDiv}>
-        {error && <p className={classes.error}>{error}</p>}
+          {error && <p className={classes.error}>{error}</p>}
         </div>
         <div>
-          <label>Username</label>
           <input
+            className={classes.credentialsInput}
             name="username"
             value={data.username}
             onChange={handleChange}
-            placeholder="Enter username"
+            placeholder="Username"
             required
           />
         </div>
         <div>
-          <label>Password</label>
           <input
+            className={classes.credentialsInput}
             type="password"
             name="password"
             value={data.password}
             onChange={handleChange}
-            placeholder="Enter password"
+            placeholder="Password"
             required
           />
         </div>
