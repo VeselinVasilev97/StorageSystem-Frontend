@@ -56,7 +56,7 @@ jobs:
         JWT=$(curl -s -X POST -H "Content-Type: application/json" -d '{"username": "'$PORTAINER_USERNAME'", "password": "'$PORTAINER_PASSWORD'"}' $PORTAINER_URL/api/auth | jq -r .jwt)
         echo "JWT: $JWT"
         # Remove existing container if it exists
-        EXISTING_CONTAINER=$(curl -s -X GET "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/json?all=true" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" | jq -r '.[] | select(.Names[] | contains("my-container")) | .Id')
+        EXISTING_CONTAINER=$(curl -s -X GET "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/json?all=true" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" | jq -r '.[] | select(.Names[] | contains("StorageFrontendContainer")) | .Id')
         if [ -n "$EXISTING_CONTAINER" ]; then
           echo "Removing existing container: $EXISTING_CONTAINER"
           STOP_RESPONSE=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/$EXISTING_CONTAINER/stop" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
@@ -64,7 +64,7 @@ jobs:
           DELETE_RESPONSE=$(curl -s -X DELETE "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/$EXISTING_CONTAINER?force=true" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
           echo "Delete response: $DELETE_RESPONSE"
         else
-          echo "No existing container found with name: my-container"
+          echo "No existing container found with name: StorageFrontendContainer"
         fi
         # Remove existing image if it exists
         EXISTING_IMAGE=$(curl -s -X GET "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/images/json" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" | jq -r '.[] | select(.RepoTags[] | contains("partyserver/storagefrontend:latest")) | .Id')
@@ -87,7 +87,7 @@ jobs:
         echo "JWT: $JWT"
         IMAGE_CREATE_RESPONSE=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/images/create?fromImage=partyserver/storagefrontend&tag=latest" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
         echo "Image create response: $IMAGE_CREATE_RESPONSE"
-        CONTAINER=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=my-container" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" -d '{
+        CONTAINER=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=StorageFrontendContainer" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" -d '{
           "Image": "partyserver/storagefrontend:latest",
           "HostConfig": {
             "PortBindings": {
