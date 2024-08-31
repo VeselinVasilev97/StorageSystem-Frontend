@@ -1,8 +1,6 @@
-import React from 'react'
 import classes from './PagesStyle.module.scss'
 
 const ClientsPage = () => {
-
 
   return (
     <div className={classes.mainContentWrapper}>

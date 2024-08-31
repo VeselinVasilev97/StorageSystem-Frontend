@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from './Nav.module.scss'
 import { useNavigate } from 'react-router-dom'
 import logoutSvg from '../../assets/logoutIcon.svg'

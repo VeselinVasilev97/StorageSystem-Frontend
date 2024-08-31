@@ -1,4 +1,3 @@
-import React from "react";
 import classes from "./Sidebar.module.scss";
 import SidebarBtn from '../Buttons/SidebarBtn'
 
