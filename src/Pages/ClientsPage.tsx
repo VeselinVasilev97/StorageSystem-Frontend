@@ -4,7 +4,7 @@ const ClientsPage = () => {
 
   return (
     <div className={classes.mainContentWrapper}>
-      <p>Clients Page test.</p>
+      <p>Clients Page.</p>
     </div>
   )
 }
