@@ -1,0 +1,42 @@
+name: Docker Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: your-dockerhub-username/your-image-name:latest
+
+    - name: Deploy to server
+      run: |
+        ssh user@your-server-ip << 'EOF'
+          docker pull your-dockerhub-username/your-image-name:latest
+          docker stop my-container || true
+          docker rm my-container || true
+          docker run -d -p 8080:80 --name my-container your-dockerhub-username/your-image-name:latest
+        EOF
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
