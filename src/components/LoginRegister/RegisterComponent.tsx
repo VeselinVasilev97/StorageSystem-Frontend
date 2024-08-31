@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import classes from "./LoginComponent.module.scss";
 import { Link, useNavigate } from "react-router-dom";
+import appConfig from '../../../appConfig.json';
 
 type FormType = {
   username: string;
   password: string;
   passwordConfirmation: string,
+  email: string
 };
 
 const RegisterComponent = () => {
+  const url = appConfig.environment[appConfig.environment.env as 'LOCAL' | 'PROD'].url;
   const navigate = useNavigate();
   const [data, setData] = useState<FormType>({
     username: "",
     password: "",
     passwordConfirmation: "",
+    email: ""
   });
-  const [passCheck,setPassCheck] = useState(false)
+  const [passCheck, setPassCheck] = useState(false)
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,7 +36,7 @@ const RegisterComponent = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:8000/api/register", {
+      const response = await fetch(`${url}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,13 +44,16 @@ const RegisterComponent = () => {
         body: JSON.stringify(
           {
             "username": data.username,
-            "password": data.password
+            "password": data.password,
+            "email": data.email
           }
         ),
       });
-
-      if (!response.ok) {
-        throw new Error("Register failed!");
+      // if (!response.ok) {
+      //   throw new Error("Register failed!");
+      // }
+      if (response.status === 409) {
+        throw new Error("Username or email already exists");
       }
       const result = await response.json();
       localStorage.setItem("authToken", result.token);
@@ -61,13 +68,13 @@ const RegisterComponent = () => {
 
 
 
-  useEffect(()=>{
-    if(data.password !== data.passwordConfirmation){
+  useEffect(() => {
+    if (data.password !== data.passwordConfirmation) {
       setPassCheck(true)
-    }else{
+    } else {
       setPassCheck(false)
     }
-  },[data])
+  }, [data])
 
 
   return (
@@ -118,7 +125,7 @@ const RegisterComponent = () => {
             className={classes.credentialsInput}
             type="email"
             name="email"
-            value={data.passwordConfirmation}
+            value={data.email}
             onChange={handleChange}
             placeholder="Email"
             required
