@@ -60,7 +60,7 @@ const LoginComponent = () => {
   return (
     <div className={classes.wrapper}>
       <form className={classes.formStyle} onSubmit={handleSubmit}>
-        <p className={classes.loginText}>Login</p>
+        <p className={classes.loginText}>Login test</p>
         <div className={classes.errorTextDiv}>
           {error && <p className={classes.error}>{error}</p>}
         </div>
