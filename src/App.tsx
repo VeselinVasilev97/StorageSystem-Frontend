@@ -4,14 +4,19 @@ import LoginPage from "./Pages/LoginPage";
 import Layout from "./components/Layout/Layout";
 import DashboardPage from "./Pages/DashboardPage";
 import SuppliersPage from "./Pages/SuppliersPage";
-import ProtectedRoute from "./components/Login/ProtectedRoute";
+import ProtectedRoute from "./components/LoginRegister/ProtectedRoute";
+import OrdersPage from "./Pages/OrdersPage";
+import UsersPage from "./Pages/UsersPage";
+import ClientsPage from "./Pages/ClientsPage";
+import RegisterPage from "./Pages/RegisterPage";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         <Route element={<Layout />}>
           <Route
@@ -23,10 +28,34 @@ const App: React.FC = () => {
             }
           />
           <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <OrdersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/suppliers"
             element={
               <ProtectedRoute>
                 <SuppliersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/clients"
+            element={
+              <ProtectedRoute>
+                <ClientsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <UsersPage />
               </ProtectedRoute>
             }
           />

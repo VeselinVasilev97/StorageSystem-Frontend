@@ -1,21 +1,13 @@
 import React from 'react'
 import classes from './PagesStyle.module.scss'
 
-const DashboardPage = () => {
-
-  const getData = async() =>{
-    // await fetch(`${}/get`)
-
-  }
-
-
-
+const OrdersPage = () => {
 
   return (
     <div className={classes.mainContentWrapper}>
-      
+      <p>Orders page</p>
     </div>
   )
 }
 
-export default DashboardPage
+export default OrdersPage

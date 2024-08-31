@@ -1,8 +1,7 @@
-import LoginComponent from '../components/Login/LoginComponent'
+import LoginComponent from '../components/LoginRegister/LoginComponent'
 
-type Props = {}
 
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   return (
     <>
         <LoginComponent />

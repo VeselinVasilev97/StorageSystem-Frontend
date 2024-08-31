@@ -1,0 +1,14 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.sidebarWrapper{
+    width: 250px;
+    background-color: $secondary-color;
+    border-right: $border-color solid 1px;
+    box-shadow: 1px 1px 10px 1px $border-color;
+    padding: 20px 0px 10px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}

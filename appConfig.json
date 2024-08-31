@@ -1,0 +1,11 @@
+{
+    "environment":{
+        "env":"PROD",
+        "LOCAL":{
+            "url":"http://localhost:8000/api"
+        },
+        "PROD":{
+            "url":"http://212.5.152.192/api"
+        }
+    }
+}
