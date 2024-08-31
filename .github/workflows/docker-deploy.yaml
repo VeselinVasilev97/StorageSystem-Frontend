@@ -91,7 +91,7 @@ jobs:
           "Image": "partyserver/storagefrontend:latest",
           "HostConfig": {
             "PortBindings": {
-              "80/tcp": [{"HostPort": "8080"}]
+              "80/tcp": [{"HostPort": "5173"}]
             }
           },
           "ExposedPorts": {
