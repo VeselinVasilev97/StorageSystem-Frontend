@@ -29,14 +29,77 @@ jobs:
         push: true
         tags: partyserver/storagefrontend:latest
 
-    - name: Deploy to server
-      run: |
-        ssh user@your-server-ip << 'EOF'
-          docker pull your-dockerhub-username/your-image-name:latest
-          docker stop my-container || true
-          docker rm my-container || true
-          docker run -d -p 8080:80 --name my-container your-dockerhub-username/your-image-name:latest
-        EOF
+    - name: Install jq
+      run: sudo apt-get install -y jq
+
+    - name: Get Portainer Endpoint ID
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
+        PORTAINER_USERNAME: ${{ secrets.PORTAINER_USERNAME }}
+        PORTAINER_PASSWORD: ${{ secrets.PORTAINER_PASSWORD }}
+      run: |
+        JWT=$(curl -s -X POST -H "Content-Type: application/json" -d '{"username": "'$PORTAINER_USERNAME'", "password": "'$PORTAINER_PASSWORD'"}' $PORTAINER_URL/api/auth | jq -r .jwt)
+        echo "JWT: $JWT"
+        ENDPOINTS=$(curl -s -X GET -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" $PORTAINER_URL/api/endpoints)
+        echo "Endpoints: $ENDPOINTS"
+        ENDPOINT_ID=$(echo $ENDPOINTS | jq -r '.[0].Id') # Assuming the first endpoint is the desired one
+        echo "Endpoint ID: $ENDPOINT_ID"
+        echo "ENDPOINT_ID=$ENDPOINT_ID" >> $GITHUB_ENV
+
+    - name: Clean up old container and image
+      env:
+        PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
+        PORTAINER_USERNAME: ${{ secrets.PORTAINER_USERNAME }}
+        PORTAINER_PASSWORD: ${{ secrets.PORTAINER_PASSWORD }}
+        ENDPOINT_ID: ${{ env.ENDPOINT_ID }}
+      run: |
+        JWT=$(curl -s -X POST -H "Content-Type: application/json" -d '{"username": "'$PORTAINER_USERNAME'", "password": "'$PORTAINER_PASSWORD'"}' $PORTAINER_URL/api/auth | jq -r .jwt)
+        echo "JWT: $JWT"
+        # Remove existing container if it exists
+        EXISTING_CONTAINER=$(curl -s -X GET "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/json?all=true" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" | jq -r '.[] | select(.Names[] | contains("my-container")) | .Id')
+        if [ -n "$EXISTING_CONTAINER" ]; then
+          echo "Removing existing container: $EXISTING_CONTAINER"
+          STOP_RESPONSE=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/$EXISTING_CONTAINER/stop" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
+          echo "Stop response: $STOP_RESPONSE"
+          DELETE_RESPONSE=$(curl -s -X DELETE "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/$EXISTING_CONTAINER?force=true" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
+          echo "Delete response: $DELETE_RESPONSE"
+        else
+          echo "No existing container found with name: my-container"
+        fi
+        # Remove existing image if it exists
+        EXISTING_IMAGE=$(curl -s -X GET "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/images/json" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" | jq -r '.[] | select(.RepoTags[] | contains("partyserver/storagefrontend:latest")) | .Id')
+        if [ -n "$EXISTING_IMAGE" ]; then
+          echo "Removing existing image: $EXISTING_IMAGE"
+          DELETE_IMAGE_RESPONSE=$(curl -s -X DELETE "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/images/$EXISTING_IMAGE?force=true" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
+          echo "Delete image response: $DELETE_IMAGE_RESPONSE"
+        else
+          echo "No existing image found with name: partyserver/storagefrontend:latest"
+        fi
+
+    - name: Deploy to Portainer
+      env:
+        PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
+        PORTAINER_USERNAME: ${{ secrets.PORTAINER_USERNAME }}
+        PORTAINER_PASSWORD: ${{ secrets.PORTAINER_PASSWORD }}
+        ENDPOINT_ID: ${{ env.ENDPOINT_ID }}
+      run: |
+        JWT=$(curl -s -X POST -H "Content-Type: application/json" -d '{"username": "'$PORTAINER_USERNAME'", "password": "'$PORTAINER_PASSWORD'"}' $PORTAINER_URL/api/auth | jq -r .jwt)
+        echo "JWT: $JWT"
+        IMAGE_CREATE_RESPONSE=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/images/create?fromImage=partyserver/storagefrontend&tag=latest" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
+        echo "Image create response: $IMAGE_CREATE_RESPONSE"
+        CONTAINER=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=my-container" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" -d '{
+          "Image": "partyserver/storagefrontend:latest",
+          "HostConfig": {
+            "PortBindings": {
+              "80/tcp": [{"HostPort": "8080"}]
+            }
+          },
+          "ExposedPorts": {
+            "80/tcp": {}
+          }
+        }')
+        echo "Container Create Response: $CONTAINER"
+        CONTAINER_ID=$(echo $CONTAINER | jq -r '.Id')
+        echo "Container ID: $CONTAINER_ID"
+        START_RESPONSE=$(curl -s -X POST "$PORTAINER_URL/api/endpoints/$ENDPOINT_ID/docker/containers/$CONTAINER_ID/start" -H "Authorization: Bearer $JWT" -H "Content-Type: application/json")
+        echo "Start response: $START_RESPONSE"
