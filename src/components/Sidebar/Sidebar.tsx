@@ -1,4 +1,4 @@
-import classes from "./Sidebar.module.";
+import classes from "./Sidebar.module.css";
 import SidebarBtn from '../Buttons/SidebarBtn'
 
 
