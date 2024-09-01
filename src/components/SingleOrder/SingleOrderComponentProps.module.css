@@ -1,0 +1,21 @@
+.orderWrapper{
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.orderHeaderInfo{
+    width: 100%;
+    display: flex;
+    background-color: red;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+@media (max-width: 768px) {
+    .orderWrapper {
+        height: 200px;
+    }
+  }

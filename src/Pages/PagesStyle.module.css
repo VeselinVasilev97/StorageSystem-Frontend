@@ -1,4 +1,18 @@
-.mainContentWrapper{
+.mainContentWrapper {
     display: flex;
     flex: 1;
 }
+
+.componentsWrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+@media (max-width: 768px) {
+    .componentsWrapper {
+      grid-template-columns: 1fr;
+    }
+  }
