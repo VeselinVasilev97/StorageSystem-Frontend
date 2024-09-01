@@ -1,4 +1,5 @@
 import classes from './SingleOrderComponentProps.module.css';
+import { formatDate } from '../../functions/dateAndTime';
 
 interface Order {
     order_id: number;
@@ -17,16 +18,16 @@ const SingleOrderComponent: React.FC<SingleOrderComponentProps> = ({ order }) =>
         <div className={classes.orderWrapper}>
             <div className={classes.orderHeaderInfo}>
                 <p>{order.customer_id}</p>
-                <p>{order.order_date}</p>
+                <p>{formatDate(order.order_date)}</p>
             </div>
-            <div>
-                {order.customer_id}
+            <div className={classes.orderHeaderInfo}>
+                <p>order id:</p>{order.order_id}
             </div>
-            <div>
-                {order.customer_id}
+            <div className={classes.orderHeaderInfo}>
+                <p>customer id:</p>{order.customer_id}
             </div>
-            <div>
-                {order.customer_id}
+            <div className={classes.totalAmount}>
+            <p>Total:</p>{order.total_amount} $
             </div>
         </div>
     );
