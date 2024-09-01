@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import classes from "./LoginComponent.module.scss";
+import classes from "./LoginComponent.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import appConfig from '../../../appConfig.json';
 type FormType = {
@@ -60,7 +60,7 @@ const LoginComponent = () => {
   return (
     <div className={classes.wrapper}>
       <form className={classes.formStyle} onSubmit={handleSubmit}>
-        <p className={classes.loginText}>Login test</p>
+        <p className={classes.loginText}>Login</p>
         <div className={classes.errorTextDiv}>
           {error && <p className={classes.error}>{error}</p>}
         </div>
@@ -88,7 +88,7 @@ const LoginComponent = () => {
           />
         </div>
         <div className={classes.rowLogin}>
-          <button type="submit" disabled={loading}>
+          <button className={classes.loginButton} type="submit" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </div>

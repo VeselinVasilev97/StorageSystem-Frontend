@@ -1,10 +1,10 @@
-import classes from "./Sidebar.module.scss";
+import classes from "./Sidebar.module.";
 import SidebarBtn from '../Buttons/SidebarBtn'
 
 
 
 const Sidebar = () => {
-
+  
 
   return (
     <div className={classes.sidebarWrapper}>

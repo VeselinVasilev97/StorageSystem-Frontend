@@ -1,4 +1,4 @@
-import classes from './PagesStyle.module.scss'
+import classes from './PagesStyle.module.css'
 
 const DashboardPage = () => {
 

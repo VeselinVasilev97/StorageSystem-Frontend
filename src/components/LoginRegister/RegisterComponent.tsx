@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import classes from "./LoginComponent.module.scss";
+import classes from "./LoginComponent.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import appConfig from '../../../appConfig.json';
 

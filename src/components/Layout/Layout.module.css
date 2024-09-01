@@ -1,5 +1,3 @@
-@import '../../sass/variables';
-@import '../../sass/mixins';
 
 .contentWrapper{
 display: flex;

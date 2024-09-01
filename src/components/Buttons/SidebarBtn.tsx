@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import classes from './SidebarBtn.module.scss'
+import classes from './SidebarBtn.module.css'
 
 type ButtonTypes = {
     value: string;

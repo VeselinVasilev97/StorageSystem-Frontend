@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom'
-import classes from './Layout.module.scss'
+import classes from './Layout.module.css'
 import Nav from '../Navigation/Nav'
-import Sidebar from '../Sidebar/Sidebar'
 
 
 const Layout = () => {
@@ -9,7 +8,6 @@ const Layout = () => {
     <>
     <Nav />
     <div className={classes.contentWrapper}>
-    <Sidebar />
     <Outlet />
     </div>
     </>
