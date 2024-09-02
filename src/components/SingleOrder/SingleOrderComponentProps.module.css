@@ -1,30 +1,25 @@
-.orderWrapper{
-    background-color: #f7f7f7;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border: 1px solid white;
+.orderWrapper {
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border: 1px solid white;
 }
-.orderHeaderInfo{
-    width: 100%;
-    height: 25%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-border-bottom: 1px solid #dedede;
-}
-
-
-.totalAmount{
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    font-size: 24px;
+.orderHeaderInfo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dedede;
 }
 
+.totalAmount {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+}
 
 @media (max-width: 768px) {
-    .orderWrapper {
-        height: 200px;
-    }
-  }
+
+}

@@ -4,11 +4,12 @@ import classes from './SidebarBtn.module.css'
 type ButtonTypes = {
     value: string;
     path: string;
+    onClick:React.MouseEventHandler<HTMLAnchorElement>;
 };
 
-const SidebarBtn = ({ value,path }: ButtonTypes) => {
+const SidebarBtn = ({ value,path,onClick }: ButtonTypes) => {
     return (
-        <NavLink to={path} className={classes.btnStyle}>{value}</NavLink>
+        <NavLink to={path} onClick={onClick} className={classes.btnStyle}>{value}</NavLink>
     )
 }
 
