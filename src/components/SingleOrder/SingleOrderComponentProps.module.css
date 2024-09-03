@@ -1,7 +1,10 @@
 .orderWrapper {
   background-color: #f7f7f7;
-  padding: 20px;
+  padding:10px 20px;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border: 1px solid white;
 }

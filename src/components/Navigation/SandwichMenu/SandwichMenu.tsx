@@ -21,6 +21,7 @@ const SandwichMenu = () => {
                 <div className={classes.dropDownMenu}>
                     <SidebarBtn onClick={() => setOpenMenu(false)}path="/dashboard" value="dashboard" />
                     <SidebarBtn onClick={() => setOpenMenu(false)}path="/orders" value="orders" />
+                    <SidebarBtn onClick={() => setOpenMenu(false)}path="/products" value="products" />
                     <SidebarBtn onClick={() => setOpenMenu(false)}path="/suppliers" value="suppliers" />
                     <SidebarBtn onClick={() => setOpenMenu(false)}path="/clients" value="clients" />
                     <SidebarBtn onClick={() => setOpenMenu(false)}path="/users" value="users" />
