@@ -14,7 +14,7 @@ const ProductsPage = () => {
             method: "get",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': window.sessionStorage.authToken
+                'Authorization': `Bearer ${sessionStorage.authToken}`,
             }
         })
             .then(res => {

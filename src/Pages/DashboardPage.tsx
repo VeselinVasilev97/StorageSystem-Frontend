@@ -1,6 +1,6 @@
 import classes from './PagesStyle.module.css';
 import appConfig from '../../appConfig.json';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import SingleOrderComponent from '../components/SingleOrder/SingleOrderComponentProps';
 
 interface Order {
@@ -13,43 +13,47 @@ interface Order {
 
 const DashboardPage = () => {
   const [data, setData] = useState<Order[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const getData = async () => {
-    const url = appConfig.environment[appConfig.environment.env as 'LOCAL' | 'PROD'].url;
+  const fetchData = useCallback(async () => {
+    const { env, ...envUrls } = appConfig.environment;
+    const url = envUrls[env as 'LOCAL' | 'PROD'].url;
+
     try {
       const response = await fetch(`${url}/orders`, {
-        method: "GET",
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': sessionStorage.authToken,
+          'Authorization': `Bearer ${sessionStorage.authToken || ''}`,
         },
       });
 
-      if (response.ok) {
-        const result: Order[] = await response.json();
-        setData(result);
-      } else {
-        console.error('Failed to fetch data:', response.statusText);
+      if (!response.ok) {
+        throw new Error(response.statusText);
       }
+
+      const result: Order[] = await response.json();
+      setData(result);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      setError((error as Error).message);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    getData();
-  }, []);
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div className={classes.mainContentWrapper}>
-
       <div className={classes.componentsWrapper}>
-        {data.length > 0 ? (
-          data.map((order, index) => (
-            <SingleOrderComponent key={index} order={order}/>
+        {error ? (
+          <p>Error: {error}</p>
+        ) : data.length > 0 ? (
+          data.map((order) => (
+            <SingleOrderComponent key={order.order_id} order={order} />
           ))
         ) : (
-          <p>NO DATA</p>
+          <p>No Data</p>
         )}
       </div>
     </div>
