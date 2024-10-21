@@ -17,3 +17,12 @@ export const formatDateTime = (date: Date | string): string => {
     const seconds = String(d.getSeconds()).padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
+
+
+export function formatPrices(number:number) {
+    return new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        useGrouping: true
+    }).format(number).replace(/,/g, ' ');
+}

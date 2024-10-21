@@ -1,6 +1,7 @@
 import classes from './PagesStyle.module.css';
 import appConfig from '../../appConfig.json';
 import { useEffect, useState, useCallback } from 'react';
+import { formatPrices } from '../functions/functions';
 import SingleOrderComponent from '../components/SingleOrder/SingleOrderComponentProps';
 
 interface Order {
@@ -50,7 +51,8 @@ const DashboardPage = () => {
           <p>Error: {error}</p>
         ) : data.length > 0 ? (
           data.map((order) => (
-            <SingleOrderComponent key={order.order_id} order={order} />
+            // <SingleOrderComponent key={order.order_id} order={order} />
+            <p>{formatPrices(10543)}</p>
           ))
         ) : (
           <p>No Data</p>

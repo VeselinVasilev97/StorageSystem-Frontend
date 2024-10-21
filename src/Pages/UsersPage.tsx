@@ -65,12 +65,10 @@ const UsersPage: React.FC = () => {
 
   return (
     <div className={classes.mainContentWrapper}>
-      <h2>Users List</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
+      <h2>Users</h2>
+        {/* {users.map((user) => (
+          <li key={user.id}>{user.username}</li>
+        ))} */}
     </div>
   );
 };

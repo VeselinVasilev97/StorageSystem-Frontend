@@ -2,14 +2,15 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import Layout from "./components/Layout/Layout";
-import DashboardPage from "./Pages/DashboardPage";
-import SuppliersPage from "./Pages/SuppliersPage";
+// import DashboardPage from "./Pages/DashboardPage";
+// import SuppliersPage from "./Pages/SuppliersPage";
 import ProtectedRoute from "./components/LoginRegister/ProtectedRoute";
-import OrdersPage from "./Pages/OrdersPage";
+// import OrdersPage from "./Pages/OrdersPage";
 import UsersPage from "./Pages/UsersPage";
-import ClientsPage from "./Pages/ClientsPage";
+// import ClientsPage from "./Pages/ClientsPage";
 import RegisterPage from "./Pages/RegisterPage";
-import ProductsPage from "./Pages/ProductsPage";
+import ToDo from "./Pages/ToDo";
+// import ProductsPage from "./Pages/ProductsPage";
 
 const App: React.FC = () => {
   return (
@@ -20,7 +21,7 @@ const App: React.FC = () => {
         <Route path="/register" element={<RegisterPage />} />
 
         <Route element={<Layout />}>
-          <Route
+          {/* <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
@@ -28,7 +29,7 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          {/* <Route
+          <Route
             path="/products"
             element={
               <ProtectedRoute>
@@ -59,7 +60,7 @@ const App: React.FC = () => {
                 <ClientsPage />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route
             path="/users"
             element={
@@ -67,7 +68,15 @@ const App: React.FC = () => {
                 <UsersPage />
               </ProtectedRoute>
             }
-          /> */}
+          />
+          <Route
+            path="/todo"
+            element={
+              <ProtectedRoute>
+                <ToDo />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </Router>

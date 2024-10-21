@@ -1,5 +1,5 @@
 import classes from './SingleOrderComponentProps.module.css';
-import { formatDate } from '../../functions/dateAndTime';
+import { formatDate } from '../../functions/functions';
 
 interface Order {
     order_id: number;
