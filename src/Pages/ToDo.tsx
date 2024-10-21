@@ -15,7 +15,7 @@ const ToDo: React.FC = () => {
                     <li>Disable/Enable user</li>
                     <li>Change password + mailing system</li>
                 </ol>
-                <h4>Users</h4>
+                <h4>Roles</h4>
                 <ol style={{ padding: '20px' }}>
                     <li>Implement logic with ROLES</li>
                 </ol>
@@ -31,13 +31,13 @@ const ToDo: React.FC = () => {
                     <li>Disable/Enable user</li>
                     <li>Change password screen</li>
                 </ol>
-                <h4>ROLES</h4>
+                <h4>Roles</h4>
                 <ol style={{ padding: '20px' }}>
                     <li>Help backend</li>
                 </ol>
             </div>
 
-            
+
         </div>
     )
 };
