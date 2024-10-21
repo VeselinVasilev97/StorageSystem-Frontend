@@ -26,3 +26,4 @@ export function formatPrices(number:number) {
         useGrouping: true
     }).format(number).replace(/,/g, ' ');
 }
+

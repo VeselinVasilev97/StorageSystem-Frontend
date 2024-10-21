@@ -1,18 +1,124 @@
+/* GENERAL CSS */
+/* GENERAL CSS */
+/* GENERAL CSS */
+/* GENERAL CSS */
+
+
 .mainContentWrapper {
-    display: flex;
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .componentsWrapper {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 20px;
-    padding: 40px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+  padding: 40px;
 }
 
+.headerDiv {
+  width: 100%;
+  padding: 20px 0px;
+}
+
+.headerDiv h1 {
+  text-align: center;
+  margin-right: auto;
+}
+
+
+/* GENERAL CSS */
+/* GENERAL CSS */
+/* GENERAL CSS */
+/* GENERAL CSS */
+
+/* USERS CSS */
+/* USERS CSS */
+/* USERS CSS */
+/* USERS CSS */
+.usersWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.usersTable {
+  width: 70%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.075) 0px 6px 6px;
+}
+
+.usersTable thead {
+  background-color: #0066cc;
+  color: white;
+  user-select: none;
+}
+
+.usersTable th {
+  background-color: #0066cc;
+  color: white;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.usersTable td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.usersTable td:last-child {
+  display: flex;
+  justify-content: center;
+}
+
+.usersTable th:last-child {
+  display: flex;
+  justify-content: center;
+}
+
+.usersTable tr:hover {
+  background-color: #f2f2f2;
+}
+
+.usersTable tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.usersTable tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.usersTable tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.usersTable tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+/* USERS CSS */
+/* USERS CSS */
+/* USERS CSS */
+/* USERS CSS */
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 768px) {
-    .componentsWrapper {
-      grid-template-columns: 1fr;
-    }
+  .componentsWrapper {
+    grid-template-columns: 1fr;
   }
+}

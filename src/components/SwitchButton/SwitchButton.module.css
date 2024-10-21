@@ -1,0 +1,35 @@
+.switchContainer {
+    display: inline-block;
+  }
+  
+  .switchCheckbox {
+    display: none;
+  }
+  
+  .switchLabel {
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    border-radius: 50px;
+    position: relative;
+    background-color: #ccc;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .switchLabel .switchButton {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transition: left 0.3s ease;
+  }
+  
+  .switchCheckbox:checked + .switchLabel .switchButton {
+    left: 27px; /* Move the switch button to the right */
+  }
+  

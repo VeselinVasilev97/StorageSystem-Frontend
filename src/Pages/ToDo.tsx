@@ -28,7 +28,7 @@ const ToDo: React.FC = () => {
                 <ol style={{ padding: '20px' }}>
                     <li>Add user screen</li>
                     <li>Edit users as admin</li>
-                    <li>Disable/Enable user</li>
+                    <li>Disable/Enable user (DONE)</li>
                     <li>Change password screen</li>
                 </ol>
                 <h4>Roles</h4>
