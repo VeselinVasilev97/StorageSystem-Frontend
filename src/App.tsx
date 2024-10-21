@@ -28,7 +28,7 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
-                    <Route
+          {/* <Route
             path="/products"
             element={
               <ProtectedRoute>
@@ -67,7 +67,7 @@ const App: React.FC = () => {
                 <UsersPage />
               </ProtectedRoute>
             }
-          />
+          /> */}
         </Route>
       </Routes>
     </Router>

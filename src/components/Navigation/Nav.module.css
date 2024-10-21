@@ -15,6 +15,7 @@
     color: white;
     display: flex;
     justify-content: space-between;
+    user-select: none;
 }
 
 .userName{

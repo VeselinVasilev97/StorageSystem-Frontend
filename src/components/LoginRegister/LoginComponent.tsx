@@ -9,8 +9,6 @@ type FormType = {
 
 const LoginComponent = () => {
   const url = appConfig.environment[appConfig.environment.env as 'LOCAL' | 'PROD'].url;
-
-  
   const navigate = useNavigate();
   const [data, setData] = useState<FormType>({
     username: "",
@@ -34,7 +32,6 @@ const LoginComponent = () => {
     setError(null);
 
     try {
-      
       const response = await fetch(`${url}/login`, {
         method: "POST",
         headers: {
@@ -48,6 +45,7 @@ const LoginComponent = () => {
       }
       const result = await response.json();
       sessionStorage.setItem("authToken", result.token);
+      sessionStorage.setItem("username", data.username);
       localStorage.removeItem("authToken")
       navigate("/dashboard");
     } catch (error: any) {
