@@ -48,7 +48,8 @@ const UsersPage: React.FC = () => {
         }
       }
     };
-
+    console.log(users);
+    
     fetchData();
     return () => {
       isMounted = false;
