@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import classes from "./LoginComponent.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import appConfig from '../../../appConfig.json';
+import { useAuth } from "../Context/AuthContext";
+
 type FormType = {
   username: string;
   password: string;
@@ -10,11 +12,12 @@ type FormType = {
 const LoginComponent = () => {
   const url = appConfig.environment[appConfig.environment.env as 'LOCAL' | 'PROD'].url;
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [data, setData] = useState<FormType>({
     username: "",
     password: "",
   });
-
+  
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,9 +47,10 @@ const LoginComponent = () => {
         throw new Error("Login failed!");
       }
       const result = await response.json();
+      
+      login(result)
+      
       sessionStorage.setItem("authToken", result.token);
-      sessionStorage.setItem("username", data.username);
-      localStorage.removeItem("authToken")
       navigate("/dashboard");
     } catch (error: any) {
       setError(error.message || "An error occurred during login.");

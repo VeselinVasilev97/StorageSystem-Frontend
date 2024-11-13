@@ -34,6 +34,7 @@ const DashboardPage = () => {
       }
 
       const result: Order[] = await response.json();
+      
       setData(result);
     } catch (error) {
       setError((error as Error).message);

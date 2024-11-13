@@ -1,3 +1,4 @@
+// src/App.tsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
@@ -11,6 +12,7 @@ import ClientsPage from "./Pages/ClientsPage";
 import RegisterPage from "./Pages/RegisterPage";
 import ToDo from "./Pages/ToDo";
 import ProductsPage from "./Pages/ProductsPage";
+import { UserRole } from './types/roles'; 
 
 const App: React.FC = () => {
   return (
@@ -24,7 +26,7 @@ const App: React.FC = () => {
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole={UserRole.User}> 
                 <DashboardPage />
               </ProtectedRoute>
             }
@@ -32,7 +34,7 @@ const App: React.FC = () => {
           <Route
             path="/products"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole={UserRole.Admin}> 
                 <ProductsPage />
               </ProtectedRoute>
             }
@@ -40,7 +42,7 @@ const App: React.FC = () => {
           <Route
             path="/orders"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole={UserRole.User}>
                 <OrdersPage />
               </ProtectedRoute>
             }
@@ -48,7 +50,7 @@ const App: React.FC = () => {
           <Route
             path="/suppliers"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole={UserRole.Admin}>
                 <SuppliersPage />
               </ProtectedRoute>
             }
@@ -56,7 +58,7 @@ const App: React.FC = () => {
           <Route
             path="/clients"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole={UserRole.User}>
                 <ClientsPage />
               </ProtectedRoute>
             }
@@ -64,15 +66,15 @@ const App: React.FC = () => {
           <Route
             path="/users"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <UsersPage />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
           <Route
             path="/todo"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole={UserRole.User}>
                 <ToDo />
               </ProtectedRoute>
             }

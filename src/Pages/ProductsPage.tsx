@@ -24,7 +24,7 @@ const ProductsPage = () => {
     const url = envUrls[env as 'LOCAL' | 'PROD'].url;
 
     try {
-      const response = await fetch(`${url}/get-products`, {
+      const response = await fetch(`${url}/products`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
