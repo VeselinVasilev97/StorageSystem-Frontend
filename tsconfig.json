@@ -1,12 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "jsx": "react-jsx",           // Enable React JSX (React 17+)
-    "strict": true,               // Enable strict type checking
-    "esModuleInterop": true,      // Allow default imports from CommonJS
-    "moduleResolution": "node",   // Use Node.js-style resolution
-    "allowSyntheticDefaultImports": true // Allow default imports even if not in TypeScript
-  },
-  "include": ["src/**/*"],        // Include your source files
-  "exclude": ["node_modules"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
