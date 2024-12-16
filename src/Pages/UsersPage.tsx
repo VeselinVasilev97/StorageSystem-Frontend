@@ -73,9 +73,6 @@ const UsersPage: React.FC = () => {
 
   return (
     <div className={classes.mainContentWrapper}>
-      <div className={classes.headerDiv}>
-      <h1>users</h1>
-      </div>
       <div className={classes.usersWrapper}>
         <table className={classes.usersTable}>
           <thead>
@@ -102,7 +99,6 @@ const UsersPage: React.FC = () => {
           </tbody>
         </table>
       </div>
-
     </div>
   );
 };
