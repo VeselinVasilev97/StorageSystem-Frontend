@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import classes from "./LoginComponent.module.css";
+import { TextField, Button, Typography, Box, Alert, CircularProgress, Link as MuiLink } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import appConfig from '../../../appConfig.json';
+import appConfig from "../../../appConfig.json";
 import { useAuth } from "../Context/AuthContext";
+import classes from "./LoginComponent.module.css";
 
 type FormType = {
   username: string;
@@ -10,14 +11,14 @@ type FormType = {
 };
 
 const LoginComponent = () => {
-  const url = appConfig.environment[appConfig.environment.env as 'LOCAL' | 'PROD'].url;
+  const url = appConfig.environment[appConfig.environment.env as "LOCAL" | "PROD"].url;
   const navigate = useNavigate();
   const { login } = useAuth();
   const [data, setData] = useState<FormType>({
     username: "",
     password: "",
   });
-  
+
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,9 +48,8 @@ const LoginComponent = () => {
         throw new Error("Login failed!");
       }
       const result = await response.json();
-      
-      login(result)
-      
+
+      login(result);
       sessionStorage.setItem("authToken", result.token);
       navigate("/dashboard");
     } catch (error: any) {
@@ -61,41 +61,70 @@ const LoginComponent = () => {
 
   return (
     <div className={classes.wrapper}>
-      <form className={classes.formStyle} onSubmit={handleSubmit}>
-        <p className={classes.loginText}>Login</p>
-        <div className={classes.errorTextDiv}>
-          {error && <p className={classes.error}>{error}</p>}
-        </div>
-        <div className={classes.rowLogin}>
-          <input
-            autoComplete="off"
-            className={classes.credentialsInput}
-            name="username"
-            value={data.username}
-            onChange={handleChange}
-            placeholder="Username"
-            required
-          />
-        </div>
-        <div className={classes.rowLogin}>
-          <input
-            autoComplete="off"
-            className={classes.credentialsInput}
-            type="password"
-            name="password"
-            value={data.password}
-            onChange={handleChange}
-            placeholder="Password"
-            required
-          />
-        </div>
-        <div className={classes.rowLogin}>
-          <button className={classes.loginButton} type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </div>
-        <Link to="/register">Register now</Link>
+    <Box
+      sx={{
+        maxWidth: 400,
+        mx: "auto",
+        mt: 5,
+        p: 3,
+        boxShadow: 3,
+        borderRadius: 2,
+        bgcolor: "background.paper",
+      }}
+    >
+      <form onSubmit={handleSubmit}>
+        <Typography variant="h4" gutterBottom align="center">
+          Login
+        </Typography>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <TextField
+          fullWidth
+          label="Username"
+          name="username"
+          value={data.username}
+          onChange={handleChange}
+          margin="normal"
+          variant="outlined"
+          // required
+        />
+        <TextField
+          fullWidth
+          label="Password"
+          name="password"
+          value={data.password}
+          onChange={handleChange}
+          margin="normal"
+          variant="outlined"
+          type="password"
+          // required
+        />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ mt: 2 }}
+          disabled={loading}
+        >
+          {loading ? <CircularProgress size={24} /> : "Login"}
+        </Button>
+
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+          <MuiLink component={Link} to="/forgot-password" underline="hover">
+            Forgot Password?
+          </MuiLink>
+          <MuiLink component={Link} to="/register" underline="hover">
+            Create an Account
+          </MuiLink>
+        </Box>
       </form>
+    </Box>
     </div>
   );
 };

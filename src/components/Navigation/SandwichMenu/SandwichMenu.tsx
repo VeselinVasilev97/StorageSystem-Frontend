@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import classes from './SandwichMenu.module.css'
-import logoutSvg from '../../../assets/logoutIcon.svg'
-import sandwichIcon from '../../../assets/sandwichIcon.png'
-import SidebarBtn from '../../Buttons/SidebarBtn'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IconButton, Menu, MenuItem, Typography, Box } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-const SandwichMenu = () => {
-    const navigate = useNavigate()
-    const [openMenu, setOpenMenu] = useState(false);
-    const handleLogout = () => {
-        sessionStorage.removeItem("authToken");
-        navigate("/login");
-    };
+const SandwichMenu: React.FC = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
-    return (
-        <div className={classes.SandwichMenu}>
-            <button className={classes.sandwichBtn} onClick={() => setOpenMenu(!openMenu)}><img src={sandwichIcon}/></button>
-            {openMenu &&
-                <div className={classes.dropDownMenu}>
-                    <SidebarBtn onClick={() => setOpenMenu(false)}path="/dashboard" value="dashboard" />
-                    <SidebarBtn onClick={() => setOpenMenu(false)}path="/orders" value="orders" />
-                    <SidebarBtn onClick={() => setOpenMenu(false)}path="/products" value="products" />
-                    <SidebarBtn onClick={() => setOpenMenu(false)}path="/suppliers" value="suppliers" />
-                    <SidebarBtn onClick={() => setOpenMenu(false)}path="/clients" value="clients" />
-                    <SidebarBtn onClick={() => setOpenMenu(false)}path="/users" value="users" />
-                    <button className={classes.logoutBtn} type="button" onClick={handleLogout}>
-                        <img width="30px" src={logoutSvg} />
-                    </button>
-                </div>}
-        </div>
-    )
-}
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-export default SandwichMenu
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    handleMenuClose();
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("authToken");
+    navigate("/login");
+  };
+
+  return (
+    <Box>
+      <IconButton color="inherit" onClick={handleMenuOpen}>
+        <MenuIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        PaperProps={{
+          sx: { minWidth: 200 },
+        }}
+      >
+        <MenuItem onClick={() => handleNavigation('/dashboard')}>
+          <Typography>Dashboard</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigation('/orders')}>
+          <Typography>Orders</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigation('/products')}>
+          <Typography>Products</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigation('/suppliers')}>
+          <Typography>Suppliers</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigation('/clients')}>
+          <Typography>Clients</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigation('/users')}>
+          <Typography>Users</Typography>
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <LogoutIcon sx={{ marginRight: 1 }} />
+          <Typography>Logout</Typography>
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
+};
+
+export default SandwichMenu;

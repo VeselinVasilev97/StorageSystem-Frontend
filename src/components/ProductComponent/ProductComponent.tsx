@@ -1,4 +1,6 @@
-import classes from './ProductComponent.module.css'
+import React from 'react';
+import { Card, CardMedia, CardContent, CardActions, Typography, Button, Box } from '@mui/material';
+import classes from './ProductComponent.module.css';
 
 interface Product {
     product_id: number;
@@ -15,31 +17,44 @@ interface SingleProductProp {
 }
 
 const ProductComponent: React.FC<SingleProductProp> = ({ product }) => {
+    const handleAddToCart = () => {
+        console.log(`Product ${product.product_id} added to cart`);
+    };
 
     return (
-        <div className={classes.productWrapper}>
-            <div className={classes.productInfoHeader}>
-                <p>Category:{product.category_id}</p>
-                <p>ProductID:{product.product_id}</p>
-            </div>
-            <div className={classes.productInfoHeader}>
-                <p>NAME:</p>
-                {product.product_name}
-            </div>
-            <div className={classes.productInfoHeader}>
-                <p>Description:</p>
-                {product.product_description}
-            </div>
-            <div className={classes.productInfoHeader}>
-                <p>Quantity:</p>
-                {product.quantity_in_stock}
-            </div>
-            <div className={classes.productInfoHeader}>
-                <p>Price:</p>
-                <strong>{product.price} $</strong> 
-            </div>
-        </div>
-    )
-}
+        <Card className={classes.productWrapper}>
+            <CardMedia
+                component="img"
+                height="200"
+                image={`https://via.placeholder.com/300?text=Product+${product.product_id}`}
+                alt={product.product_name}
+            />
+            <CardContent>
+                <Typography variant="h6" gutterBottom>
+                    {product.product_name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {product.product_description}
+                </Typography>
+                <Box sx={{ marginTop: 2 }}>
+                    <Typography variant="body2">
+                        Category: {product.category_id}
+                    </Typography>
+                    <Typography variant="body2">
+                        Quantity in Stock: {product.quantity_in_stock}
+                    </Typography>
+                    <Typography variant="h6" color="primary">
+                        ${product.price.toFixed(2)}
+                    </Typography>
+                </Box>
+            </CardContent>
+            <CardActions>
+                <Button size="small" variant="contained" onClick={handleAddToCart}>
+                    Add to Cart
+                </Button>
+            </CardActions>
+        </Card>
+    );
+};
 
-export default ProductComponent
+export default ProductComponent;

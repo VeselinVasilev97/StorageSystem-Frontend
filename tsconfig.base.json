@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "target": "ES2020",           // Specify ECMAScript target version
+      "module": "ESNext",           // Use ESNext module syntax
+      "lib": ["DOM", "DOM.Iterable", "ESNext"], // Include relevant libraries
+      "skipLibCheck": true          // Skip type checking for library files
+    }
+  }
+  
