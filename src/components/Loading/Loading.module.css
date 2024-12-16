@@ -2,7 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    max-height: calc(100vh - 64px); 
+    min-height: calc(99vh - 64px); 
+
   }
   
   .spinner {
