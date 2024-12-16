@@ -5,9 +5,11 @@ import classes from './Nav.module.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import homeIcon from '../../assets/homeIcon.svg';
+import { useAuth } from '../Context/AuthContext';
 
 const Nav: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const username = window.sessionStorage.username;
 
@@ -26,8 +28,8 @@ const Nav: React.FC = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("authToken");
+    logout()
     navigate("/login");
-    handleMenuClose();
   };
 
   return (
@@ -73,7 +75,7 @@ const Nav: React.FC = () => {
               <MenuItem onClick={() => handleNavigation('/suppliers')}>Suppliers</MenuItem>
               <MenuItem onClick={() => handleNavigation('/clients')}>Clients</MenuItem>
               <MenuItem onClick={() => handleNavigation('/users')}>Users</MenuItem>
-              <MenuItem onClick={handleLogout}>
+              <MenuItem  onClick={handleLogout}>
                 <LogoutIcon sx={{ marginRight: 1 }} />
                 Logout
               </MenuItem>

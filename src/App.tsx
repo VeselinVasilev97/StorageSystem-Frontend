@@ -72,9 +72,9 @@ const App: React.FC = () => {
           <Route
             path="/users"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <UsersPage />
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
           />
           <Route

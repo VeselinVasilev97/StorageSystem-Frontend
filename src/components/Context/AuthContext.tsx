@@ -18,19 +18,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true); 
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const storedUser = sessionStorage.getItem("user");
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-        setLoading(false); 
+        setLoading(false);
     }, []);
 
     const login = (user: User) => {
         setUser(user);
-        sessionStorage.setItem("user", JSON.stringify(user));  
+        sessionStorage.setItem("user", JSON.stringify(user));
     };
 
     const logout = () => {
@@ -40,7 +39,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     return (
         <AuthContext.Provider value={{ user, login, logout }}>
-            {!loading && children} 
+            {!loading && children}
         </AuthContext.Provider>
     );
 };

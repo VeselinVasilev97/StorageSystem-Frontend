@@ -3,6 +3,7 @@ import appConfig from '../../appConfig.json';
 import { useEffect, useState, useCallback } from 'react';
 // import { formatPrices } from '../functions/functions';
 import SingleOrderComponent from '../components/SingleOrder/SingleOrderComponentProps';
+import Loading from '../components/Loading/Loading';
 
 interface Order {
   order_id: number;
@@ -15,6 +16,9 @@ interface Order {
 const DashboardPage = () => {
   const [data, setData] = useState<Order[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+
 
   const fetchData = useCallback(async () => {
     const { env, ...envUrls } = appConfig.environment;
@@ -34,17 +38,28 @@ const DashboardPage = () => {
       }
 
       const result: Order[] = await response.json();
-      
       setData(result);
     } catch (error) {
       setError((error as Error).message);
     }
+    setLoading(false)
+
   }, []);
 
+
+  
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
+
+  if (loading) {
+    return <div className={classes.mainContentWrapper}><Loading /></div>;
+  }
+
+  if (error) {
+    return <div className={classes.mainContentWrapper}>Error: {error}</div>;
+  }
   return (
     <div className={classes.mainContentWrapper}>
       <div className={classes.componentsWrapper}>
