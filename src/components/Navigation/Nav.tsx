@@ -38,16 +38,10 @@ const Nav: React.FC = () => {
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           {/* Left Section */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <NavLink to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <IconButton edge="start" color="inherit">
-                <img height={30} src={homeIcon} alt="Home" />
-              </IconButton>
+            <NavLink to="/dashboard" style={{ textDecoration: 'none', color: 'inherit',height:'64px' }}>
+                <img height={64} src={logo3} alt="Home" />
             </NavLink>
-            <Typography variant="h6" sx={{ marginLeft: 2 }}>
-              {username}
-            </Typography>
           </Box>
-          <img height={'64px'} src={logo3}/>
           {/* Right Section */}
           <Box sx={{ ml: 'auto' }}>
             <IconButton color="inherit" onClick={handleMenuClick}>

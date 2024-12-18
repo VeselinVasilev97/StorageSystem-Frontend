@@ -9,6 +9,7 @@ import {
   MenuItem,
   Chip,
 } from '@mui/material';
+import appConfig from '../../../appConfig.json'
 import EditIcon from '@mui/icons-material/Edit';
 import { User, Role } from '../../types/users';
 
@@ -23,28 +24,52 @@ const UsersEdit: React.FC<UsersEditProps> = ({ user, availableRoles, onSave }) =
   const [email, setEmail] = useState(user.email);
   const [roles, setRoles] = useState<Role[]>(user.roles || []);
   const [newRole, setNewRole] = useState<string>('');
-
+  const { env, ...envUrls } = appConfig.environment;
+  const url = envUrls[env as 'LOCAL' | 'PROD'].url;
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleAddRole = () => {
+  const handleAddRole = async () => {
     if (newRole) {
       const roleToAdd = availableRoles.find((role) => role.role_name === newRole);
-      if (roleToAdd && !roles.some((r) => r.role_id === roleToAdd.role_id)) {
-        setRoles((prev) => [...prev, roleToAdd]);
-        setNewRole('');
+      try{
+      const response = await fetch(`${url}/assign-role`, {
+        method:'post',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization': `Bearer ${sessionStorage.authToken || ''}`,
+        },
+        body:JSON.stringify({
+          user_id:user.id,
+          role_id:roleToAdd?.role_id
+        })
+      })
+      if(response.ok){
+        if (roleToAdd && !roles.some((r) => r.role_id === roleToAdd.role_id)) {
+          setRoles((prev) => [...prev, roleToAdd]);
+          setNewRole('');
+        }     
+      }else{
+
       }
+    }catch(error){
+      throw error
+    }
+
+
     }
   };
 
   const handleRemoveRole = (roleId: number) => {
-    setRoles((prev) => prev.filter((role) => role.role_id !== roleId));
+    // setRoles((prev) => prev.filter((role) => role.role_id !== roleId));
   };
 
   const handleSave = () => {
     const updatedUser: User = { ...user, email, roles };
-    onSave(updatedUser);
-    handleClose();
+    console.log(updatedUser);
+
+    // onSave(updatedUser);
+    // handleClose();
   };
 
   return (

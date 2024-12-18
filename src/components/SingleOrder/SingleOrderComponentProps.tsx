@@ -1,4 +1,5 @@
-import classes from './SingleOrderComponentProps.module.css';
+import React from 'react';
+import { Card, CardContent, CardMedia, Typography, Grid, Box } from '@mui/material';
 import { formatDate } from '../../functions/functions';
 
 interface Order {
@@ -11,25 +12,47 @@ interface Order {
 
 interface SingleOrderComponentProps {
     order: Order;
+    imageUrl: string;
 }
 
-const SingleOrderComponent: React.FC<SingleOrderComponentProps> = ({ order }) => {
+const SingleOrderComponent: React.FC<SingleOrderComponentProps> = ({ order, imageUrl }) => {
     return (
-        <div className={classes.orderWrapper}>
-            <div className={classes.orderHeaderInfo}>
-                <p>{order.customer_id}</p>
-                <p>{formatDate(order.order_date)}</p>
-            </div>
-            <div className={classes.orderHeaderInfo}>
-                <p>order id:</p>{order.order_id}
-            </div>
-            <div className={classes.orderHeaderInfo}>
-                <p>customer id:</p>{order.customer_id}
-            </div>
-            <div className={classes.totalAmount}>
-            <p>Total:</p>{order.total_amount} $
-            </div>
-        </div>
+        <Card>
+            <CardMedia
+                component="img"
+                height="140"
+                image={`https://via.placeholder.com/300?text=Order+${order.order_id}`}
+                alt="Order Image"
+            />
+            <CardContent>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <Typography variant="subtitle1" color="textSecondary">
+                            Customer ID:
+                        </Typography>
+                        <Typography variant="body1">{order.customer_id}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography variant="subtitle1" color="textSecondary">
+                            Order Date:
+                        </Typography>
+                        <Typography variant="body1">{formatDate(order.order_date)}</Typography>
+                    </Grid>
+                </Grid>
+                <Box mt={2}>
+                    <Typography variant="subtitle1" color="textSecondary">
+                        Order ID:
+                    </Typography>
+                    <Typography variant="body1">{order.order_id}</Typography>
+                </Box>
+                <Box mt={2}>
+                    <Typography variant="subtitle1" color="textSecondary">
+                        Total Amount:
+                    </Typography>
+                    <Typography variant="body1">{order.total_amount} $</Typography>
+                </Box>
+            </CardContent>
+        </Card>
     );
 };
 

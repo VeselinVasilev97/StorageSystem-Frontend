@@ -2,7 +2,7 @@ import classes from './PagesStyle.module.css';
 import appConfig from '../../appConfig.json';
 import { useEffect, useState, useCallback } from 'react';
 import SingleOrderComponent from '../components/SingleOrder/SingleOrderComponentProps';
-
+import logo3 from '../assets/logo3.webp'
 interface Order {
   order_id: number;
   customer_id: number;
@@ -50,7 +50,7 @@ const OrdersPage = () => {
           <p>Error: {error}</p>
         ) : data.length > 0 ? (
           data.map((order) => (
-            <SingleOrderComponent key={order.order_id} order={order} />
+            <SingleOrderComponent key={order.order_id} order={order} imageUrl={`https://via.placeholder.com/300?text=Order+${1}`}/>
           ))
         ) : (
           <p>No Data</p>
