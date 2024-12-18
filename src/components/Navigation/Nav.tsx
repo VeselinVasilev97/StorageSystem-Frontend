@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Box, Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Box, Menu, MenuItem } from '@mui/material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import classes from './Nav.module.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
-import homeIcon from '../../assets/homeIcon.svg';
 import { useAuth } from '../Context/AuthContext';
 import logo3 from '../../assets/logo3.webp'
 const Nav: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const username = window.sessionStorage.username;
 
   const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

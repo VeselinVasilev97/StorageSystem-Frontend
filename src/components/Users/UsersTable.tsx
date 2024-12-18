@@ -89,7 +89,7 @@ const DesktopRow: React.FC<{ user: User; availableRoles: Role[] }> = ({ user, av
               <UsersEdit
                 user={user}
                 availableRoles={availableRoles}
-                onSave={(updatedUser) => console.log('Updated user:', updatedUser)}
+                // onSave={(updatedUser) => console.log('Updated user:', updatedUser)}
               />
             </Box>
           </Collapse>
@@ -126,7 +126,7 @@ const MobileRow: React.FC<{ user: User; availableRoles: Role[] }> = ({ user, ava
             <UsersEdit
               user={user}
               availableRoles={availableRoles}
-              onSave={(updatedUser) => console.log('Updated user:', updatedUser)}
+              // onSave={(updatedUser) => console.log('Updated user:', updatedUser)}
             />
           </Box>
         </Collapse>

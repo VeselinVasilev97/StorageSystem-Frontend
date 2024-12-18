@@ -16,10 +16,10 @@ import { User, Role } from '../../types/users';
 interface UsersEditProps {
   user: User;
   availableRoles: Role[]; // List of all possible roles
-  onSave: (updatedUser: User) => void; // Callback to save changes
+  // onSave: (updatedUser: User) => void; // Callback to save changes
 }
 
-const UsersEdit: React.FC<UsersEditProps> = ({ user, availableRoles, onSave }) => {
+const UsersEdit: React.FC<UsersEditProps> = ({ user, availableRoles }) => {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState(user.email);
   const [roles, setRoles] = useState<Role[]>(user.roles || []);
@@ -61,6 +61,8 @@ const UsersEdit: React.FC<UsersEditProps> = ({ user, availableRoles, onSave }) =
   };
 
   const handleRemoveRole = (roleId: number) => {
+    console.log(roleId);
+    
     // setRoles((prev) => prev.filter((role) => role.role_id !== roleId));
   };
 

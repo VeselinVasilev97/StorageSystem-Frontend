@@ -12,10 +12,9 @@ interface Order {
 
 interface SingleOrderComponentProps {
     order: Order;
-    imageUrl: string;
 }
 
-const SingleOrderComponent: React.FC<SingleOrderComponentProps> = ({ order, imageUrl }) => {
+const SingleOrderComponent: React.FC<SingleOrderComponentProps> = ({ order }) => {
     return (
         <Card>
             <CardMedia
