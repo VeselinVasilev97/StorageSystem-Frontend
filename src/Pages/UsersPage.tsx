@@ -162,13 +162,20 @@ const MobileRow: React.FC<{ user: User }> = ({ user }) => {
     <Grid item xs={12}>
       <Paper sx={{ p: 2 }}>
         <Box display="flex" justifyContent="space-between">
-          <Typography variant="subtitle1">{user.username}</Typography>
+          <Box display="flex" gap="20px">
+            <Box width="100px" display="flex" alignItems="center">
+              <Typography variant="h6">{user.username}</Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <Typography>Email: {user.email}</Typography>
+            </Box>
+          </Box>
+
           <IconButton onClick={() => setOpen(!open)} size="small">
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </Box>
         <Collapse in={open} timeout="auto" unmountOnExit>
-          <Typography>Email: {user.email}</Typography>
           <Typography>Created: {new Date(user.created_at).toLocaleDateString()}</Typography>
           <Typography>Last Update: {new Date(user.updated_at).toLocaleDateString()}</Typography>
           <Typography>Last Login: {new Date(user.last_login).toLocaleDateString()}</Typography>
