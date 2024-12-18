@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import homeIcon from '../../assets/homeIcon.svg';
 import { useAuth } from '../Context/AuthContext';
-
+import logo3 from '../../assets/logo3.webp'
 const Nav: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { logout } = useAuth();
@@ -47,7 +47,7 @@ const Nav: React.FC = () => {
               {username}
             </Typography>
           </Box>
-
+          <img height={'64px'} src={logo3}/>
           {/* Right Section */}
           <Box sx={{ ml: 'auto' }}>
             <IconButton color="inherit" onClick={handleMenuClick}>

@@ -14,7 +14,7 @@ import ClientsPage from "./Pages/ClientsPage";
 import RegisterPage from "./Pages/RegisterPage";
 import ToDo from "./Pages/ToDo";
 import ProductsPage from "./Pages/ProductsPage";
-import { UserRole } from './types/roles'; 
+import { UserRole } from './types/users'; 
 import theme from '../theme';
 
 const App: React.FC = () => {

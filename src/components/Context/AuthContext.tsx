@@ -1,6 +1,6 @@
 // src/context/AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { UserRole } from '../../types/roles';
+import { UserRole } from '../../types/users';
 
 interface User {
     id: string;

@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react';
-import classes from './PagesStyle.module.css';
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Grid,
+  Collapse,
+  IconButton,
+  Switch,
+} from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { User } from '../types/users';
+import UsersEdit from '../components/Users/UsersEdit';
 import appConfig from '../../appConfig.json';
-import { formatDate } from '../functions/functions';
-import SwitchButton from '../components/SwitchButton/SwitchButton';
-import Loading from '../components/Loading/Loading';
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  created_at: string;
-  updated_at: string;
-  last_login: string;
-  is_active: string;
-}
 
 const fetchUsersData = async (): Promise<User[]> => {
   const { env, ...envUrls } = appConfig.environment;
@@ -36,70 +42,148 @@ const UsersPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md')); // Detect tablet and smaller screens
+
   useEffect(() => {
-    let isMounted = true;
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
         const data = await fetchUsersData();
-        if (isMounted) {
-          setUsers(data);
-        }
+        setUsers(data);
       } catch (err) {
-        if (isMounted) {
-          setError((err as Error).message);
-        }
+        setError((err as Error).message);
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
 
     fetchData();
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
   if (loading) {
-    return <div className={classes.mainContentWrapper}><Loading /></div>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <Typography variant="h6">Loading...</Typography>
+      </Box>
+    );
   }
 
   if (error) {
-    return <div className={classes.mainContentWrapper}>Error: {error}</div>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <Typography color="error">Error: {error}</Typography>
+      </Box>
+    );
   }
 
   return (
-    <div className={classes.mainContentWrapper}>
-      <div className={classes.usersWrapper}>
-        <table className={classes.usersTable}>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>E-mail</th>
-              <th>Created</th>
-              <th>Last update</th>
-              <th>Last login</th>
-              <th>ON / OFF</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user,i) => (
-              <tr key={i}>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{formatDate(user?.created_at)}</td>
-                <td>{formatDate(user?.updated_at)}</td>
-                <td>{formatDate(user?.last_login)}</td>
-                <td>{<SwitchButton  isOn={true} onColor='#0066cc' nameFor={i.toString()} handleToggle={()=>console.log('clicked')}/>}</td>
-              </tr>
-        ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <Box p={2}>
+      <Typography variant="h4" mb={4}>
+        Users
+      </Typography>
+      {isMobile ? (
+        <Grid container spacing={2}>
+          {users.map((user) => (
+            <MobileRow key={user.id} user={user} />
+          ))}
+        </Grid>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Username</TableCell>
+                <TableCell>E-mail</TableCell>
+                <TableCell>Created</TableCell>
+                <TableCell>Last Update</TableCell>
+                <TableCell>Last Login</TableCell>
+                <TableCell>ON / OFF</TableCell>
+                <TableCell>Edit</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <DesktopRow key={user.id} user={user} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </Box>
+  );
+};
+
+const DesktopRow: React.FC<{ user: User }> = ({ user }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <TableRow>
+        <TableCell>{user.username}</TableCell>
+        <TableCell>{user.email}</TableCell>
+        <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
+        <TableCell>{new Date(user.updated_at).toLocaleDateString()}</TableCell>
+        <TableCell>{new Date(user.last_login).toLocaleDateString()}</TableCell>
+        <TableCell>
+          <Switch
+            checked={user.is_active}
+            onChange={() => console.log(`Toggle user ${user.id}`)}
+            color="primary"
+          />
+        </TableCell>
+        <TableCell>
+          <IconButton onClick={() => setOpen(!open)} size="small">
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell colSpan={7} style={{ paddingBottom: 0, paddingTop: 0 }}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box margin={2}>
+              <Typography variant="subtitle1" gutterBottom>
+                Additional Details
+              </Typography>
+              <UsersEdit user={user} />
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  );
+};
+
+const MobileRow: React.FC<{ user: User }> = ({ user }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Grid item xs={12}>
+      <Paper sx={{ p: 2 }}>
+        <Box display="flex" justifyContent="space-between">
+          <Typography variant="subtitle1">{user.username}</Typography>
+          <IconButton onClick={() => setOpen(!open)} size="small">
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </Box>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <Typography>Email: {user.email}</Typography>
+          <Typography>Created: {new Date(user.created_at).toLocaleDateString()}</Typography>
+          <Typography>Last Update: {new Date(user.updated_at).toLocaleDateString()}</Typography>
+          <Typography>Last Login: {new Date(user.last_login).toLocaleDateString()}</Typography>
+          <Typography>ON / OFF:</Typography>
+          <Switch
+            checked={user.is_active}
+            onChange={() => console.log(`Toggle user ${user.id}`)}
+            color="primary"
+          />
+          <Box mt={2}>
+            <UsersEdit user={user} />
+          </Box>
+        </Collapse>
+      </Paper>
+    </Grid>
   );
 };
 
